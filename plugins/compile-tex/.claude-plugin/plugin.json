@@ -1,0 +1,13 @@
+{
+  "name": "compile-tex",
+  "description": "Compile LaTeX, plain TeX, and ConTeXt documents to PDF using the Island of TeX texlive/texlive Docker image.",
+  "version": "1.0.0",
+  "author": {
+    "name": "koppor",
+    "url": "https://github.com/koppor"
+  },
+  "homepage": "https://github.com/koppor/claude-tex-skills",
+  "repository": "https://github.com/koppor/claude-tex-skills",
+  "license": "MIT",
+  "keywords": ["latex", "texlive", "docker", "pdf", "tex", "lualatex", "context"]
+}

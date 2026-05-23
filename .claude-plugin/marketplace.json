@@ -1,0 +1,18 @@
+{
+  "name": "koppor-tex-skills",
+  "owner": {
+    "name": "koppor",
+    "url": "https://github.com/koppor"
+  },
+  "metadata": {
+    "description": "Claude Code plugins related to TeX/LaTeX: compilation, language checks, CI actions, template generation, and more.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "compile-tex",
+      "source": "./plugins/compile-tex",
+      "description": "Compile LaTeX, plain TeX, and ConTeXt documents to PDF using the Island of TeX texlive/texlive Docker image — no local TeX Live install required."
+    }
+  ]
+}
