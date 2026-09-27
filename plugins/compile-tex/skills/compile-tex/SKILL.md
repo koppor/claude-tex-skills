@@ -31,8 +31,16 @@ documentation; ordinary `pdflatex foo.tex`–level usage is taken for granted.
   `latest`), and `context`. Tag form: `latest-<scheme>`, e.g.
   `latest-medium`. Smaller schemes pull faster but ship fewer CTAN
   packages and may omit `latexmk`, `arara`, or `context`.
-- **Historic tags:** `TLYYYY-historic`, e.g. `TL2024-historic`. Rebuilt
-  monthly for OS updates only; TeX Live contents are frozen.
+- **Dated snapshots (reproducible):** `TL<year>-YYYY-MM-DD-<scheme>[-doc][-src]`,
+  e.g. `TL2025-2026-05-14-full` or `TL2025-2026-05-14` (the bare form is
+  the `full`-scheme alias). The first year is the TeX Live release; the
+  date is the build date. Pin to one when you need byte-for-byte
+  reproducibility.
+- **Historic tags:** `TL<year>-historic[-doc][-src]`. Currently built for
+  TeX Live `2013`–`2025` (full scheme only — no scheme variants). Rebuilt
+  monthly for OS updates; TeX Live contents themselves are frozen.
+- **Architectures:** `linux/amd64` and `linux/arm64/v8` (multi-arch
+  manifests, both `latest` and dated/historic tags).
 - **`-doc` and `-src` flavors** add *documentation* and *source* files for
   already-installed packages. They do **not** add more packages. If a
   package is missing, switch to a larger scheme or run
@@ -122,9 +130,27 @@ Unnecessary on macOS and Windows Docker Desktop.
 
 ## Error reporting
 
-Extract the actual error from `foo.log`: search for lines starting with
-`! ` together with the `l.<n>` line reference. Show that; do not paste the
-full log.
+The image ships [`texlogsieve`](https://ctan.org/pkg/texlogsieve), which
+filters a LaTeX log down to the messages that matter. Prefer it over
+grepping the log by hand:
+
+```sh
+docker run --rm -v "${PWD}:/workdir" texlive/texlive:latest \
+  texlogsieve --no-page-delimiters < foo.log
+```
+
+(Or pipe the compile output directly:
+`latexmk -lualatex foo.tex | texlogsieve` inside the container.)
+
+Fallback without texlogsieve: search `foo.log` for lines starting with
+`! ` together with the `l.<n>` line reference. Either way, show only the
+relevant messages; do not paste the full log.
+
+Note: with `-interaction=nonstopmode`, some fatal states appear as
+repeated non-`!` lines (e.g. a NUL-corrupted `.aux` yields many
+`Text line contains an invalid character` messages and a final
+`==> Fatal error occurred`); if `! `-grep finds nothing, check the last
+lines of the log for `Fatal error` and `That makes 100 errors`.
 
 ## Housekeeping
 
